@@ -1,37 +1,35 @@
----
-
+sudo: false
 language: php
-
-php:
-  - 5.4
-  - 5.5
-  - 5.6
-  - hhvm
-
-branches:
-  only:
-    - master
-    - develop
-
-install:
-  - composer self-update
-  - composer install --dev --prefer-source
-
-before_script:
-  - mkdir -p build/coverage
-
-script:
-  - vendor/bin/phpunit
-
-after_script:
-  - php vendor/bin/coveralls
-
-notifications:
-  irc: "irc.freenode.org#matryoshka.dev"
-  email:
-    - ripaclub@gmail.com
-
 matrix:
   fast_finish: true
+  include:
+  - php: 5.4
+  - php: 5.5
+  - php: 5.6
+  - php: 7
+  - php: hhvm
   allow_failures:
-    - php: hhvm
+  - php: 7
+  - php: hhvm
+before_script:
+- composer self-update
+- composer config --global github-oauth.github.com ${GH_TOKEN}
+- composer install
+script:
+- vendor/bin/phpunit
+after_script:
+- php vendor/bin/coveralls
+notifications:
+  webhooks:
+    urls:
+    - https://webhooks.gitter.im/e/70b21e421c7b6b4d20a8
+    on_success: change
+  email: false
+  slack:
+    secure: ZFrdFqnDiL+495HT+5qnTAj49umc4XLcny9CkXg8c5f0lYDXz/kReCPuZPAHnHrHqXEtiUTeaBAfeo/8/2uzBMM8h4emjaukI+1WYQObd0JAmP7LKGfRQRppqJwZ3NAunwlaJFgxLSmY1aLoVC0LFpp8tzxQCET2ISvycX40sDc=
+cache:
+  directories:
+  - "$HOME/.composer/cache"
+env:
+  global:
+    secure: RKVxHh1cMN3YJcXup4IoYDAV8tsMMQoJnjf1Yla/tYqAnohHAQVav9u9IFNkJKW5YCMWsVvS/jnJYzGv2AOHtZ7aHOu9hIONNdh7jfRJ8ErwYA5raAl/slQ1gLhCc1PGNmU0dSKW1xbXzCq/Np1Q5NHPQHYk6tEeoJM1dISPDeE=
