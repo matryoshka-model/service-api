@@ -55,4 +55,4 @@ Then in your configuration you can add the `matryoshka-httpclient` and `matryosh
 
 ---
 
-[![Analytics](https://ga-beacon.appspot.com/UA-49657176-2/service-api)](https://github.com/igrigorik/ga-beacon)
+[![Analytics](https://ga-beacon.appspot.com/UA-49657176-2/service-api?flat)](https://github.com/igrigorik/ga-beacon)
