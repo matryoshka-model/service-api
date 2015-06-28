@@ -1,9 +1,13 @@
 Service API
 ===========
 
-[![Latest Stable Version](http://img.shields.io/packagist/v/matryoshka-model/service-api.svg?style=flat-square)](https://packagist.org/packages/matryoshka-model/service-api) [![Build Status](https://img.shields.io/travis/matryoshka-model/service-api.svg?style=flat-square)](https://travis-ci.org/matryoshka-model/service-api) [![Coveralls branch](https://img.shields.io/coveralls/matryoshka-model/service-api/master.svg?style=flat-square)](https://coveralls.io/r/matryoshka-model/service-api?branch=master)
+[![Latest Stable Version](http://img.shields.io/packagist/v/matryoshka-model/service-api.svg?style=flat-square)](https://packagist.org/packages/matryoshka-model/service-api) [![Build Status](https://img.shields.io/travis/matryoshka-model/service-api.svg?style=flat-square)](https://travis-ci.org/matryoshka-model/service-api) [![Coveralls branch](https://img.shields.io/coveralls/matryoshka-model/service-api/master.svg?style=flat-square)](https://coveralls.io/r/matryoshka-model/service-api?branch=master) [![Matryoshka Model's Slack](http://matryoshka-slackin.herokuapp.com/badge.svg?style=flat-square)](http://matryoshka-slackin.herokuapp.com)
 
 > A set of utilities aimed at consuming HTTP API services.
+
+#### Community
+
+For questions and support please visit the [slack channel](http://matryoshka-slackin.herokuapp.com).
 
 ## Installation
 
