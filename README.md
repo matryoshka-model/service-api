@@ -3,7 +3,7 @@ Service API
 
 [![Latest Stable Version](http://img.shields.io/packagist/v/matryoshka-model/service-api.svg?style=flat-square)](https://packagist.org/packages/matryoshka-model/service-api) [![Build Status](https://img.shields.io/travis/matryoshka-model/service-api.svg?style=flat-square)](https://travis-ci.org/matryoshka-model/service-api) [![Coveralls branch](https://img.shields.io/coveralls/matryoshka-model/service-api/master.svg?style=flat-square)](https://coveralls.io/r/matryoshka-model/service-api?branch=master)
 
-A set of utilities aimed at consuming HTTP API services.
+> A set of utilities aimed at consuming HTTP API services.
 
 ## Installation
 
