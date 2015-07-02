@@ -1,26 +1,27 @@
 Service API
 ===========
 
-[![Latest Stable Version](http://img.shields.io/packagist/v/matryoshka-model/service-api.svg?style=flat-square)](https://packagist.org/packages/matryoshka-model/service-api) [![Build Status](https://img.shields.io/travis/matryoshka-model/service-api.svg?style=flat-square)](https://travis-ci.org/matryoshka-model/service-api) [![Coveralls branch](https://img.shields.io/coveralls/matryoshka-model/service-api/master.svg?style=flat-square)](https://coveralls.io/r/matryoshka-model/service-api?branch=master)
+[![Latest Stable Version](http://img.shields.io/packagist/v/matryoshka-model/service-api.svg?style=flat-square)](https://packagist.org/packages/matryoshka-model/service-api) [![Build Status](https://img.shields.io/travis/matryoshka-model/service-api.svg?style=flat-square)](https://travis-ci.org/matryoshka-model/service-api) [![Coveralls branch](https://img.shields.io/coveralls/matryoshka-model/service-api/master.svg?style=flat-square)](https://coveralls.io/r/matryoshka-model/service-api?branch=master) [![Matryoshka Model's Slack](http://matryoshka-slackin.herokuapp.com/badge.svg?style=flat-square)](http://matryoshka-slackin.herokuapp.com)
 
-A set of utilities aimed at consuming HTTP API services.
+> A set of utilities aimed at consuming HTTP API services.
+
+#### Community
+
+For questions and support please visit the [slack channel](http://matryoshka-slackin.herokuapp.com).
 
 ## Installation
 
 Install it using [composer](http://getcomposer.org).
 
-Add the following to your `composer.json` file:
-
 ```
-"require": {
-    "php": ">=5.4",
-    "matryoshka-model/service-api": "~0.3.0"
-}
+composer require matryoshka-model/service-api
 ```
 
 ## Configuration
 
-This library provides two factories for `Zend\ServiceManager` to make Zend\Http\Client and Matryoshka\Service\Api\Client\HttpApi available as services. In order to use them in a ZF2 application, register the provided factories through the `service_manager` configuration node:
+This library provides two factories for **Zend\ServiceManager** to make **Zend\Http\Client** and **Matryoshka\Service\Api\Client\HttpApi** available as services.
+
+In order to use them in a ZF2 application register the provided factories into its configuration:
 
 ```php
 'service_manager'    => [
@@ -33,7 +34,7 @@ This library provides two factories for `Zend\ServiceManager` to make Zend\Http\
 ],
 ```
 
-Then in your configuration you can add the `matryoshka-httpclient` and `matryoshka-service-api` nodes and configure them as in example:
+Then, in your configuration you can add the `matryoshka-httpclient` and `matryoshka-service-api` nodes and configure them as in the following example:
 
 ```php
 'matryoshka-httpclient' => [
@@ -55,4 +56,4 @@ Then in your configuration you can add the `matryoshka-httpclient` and `matryosh
 
 ---
 
-[![Analytics](https://ga-beacon.appspot.com/UA-49657176-2/service-api)](https://github.com/igrigorik/ga-beacon)
+[![Analytics](https://ga-beacon.appspot.com/UA-49657176-2/service-api?flat)](https://github.com/igrigorik/ga-beacon)
