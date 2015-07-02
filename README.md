@@ -13,18 +13,15 @@ For questions and support please visit the [slack channel](http://matryoshka-sla
 
 Install it using [composer](http://getcomposer.org).
 
-Add the following to your `composer.json` file:
-
 ```
-"require": {
-    "php": ">=5.4",
-    "matryoshka-model/service-api": "~0.3.0"
-}
+composer require matryoshka-model/service-api
 ```
 
 ## Configuration
 
-This library provides two factories for `Zend\ServiceManager` to make Zend\Http\Client and Matryoshka\Service\Api\Client\HttpApi available as services. In order to use them in a ZF2 application, register the provided factories through the `service_manager` configuration node:
+This library provides two factories for **Zend\ServiceManager** to make **Zend\Http\Client** and **Matryoshka\Service\Api\Client\HttpApi** available as services.
+
+In order to use them in a ZF2 application register the provided factories into its configuration:
 
 ```php
 'service_manager'    => [
@@ -37,7 +34,7 @@ This library provides two factories for `Zend\ServiceManager` to make Zend\Http\
 ],
 ```
 
-Then in your configuration you can add the `matryoshka-httpclient` and `matryoshka-service-api` nodes and configure them as in example:
+Then, in your configuration you can add the `matryoshka-httpclient` and `matryoshka-service-api` nodes and configure them as in the following example:
 
 ```php
 'matryoshka-httpclient' => [
