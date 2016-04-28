@@ -4,11 +4,11 @@
     "homepage": "http://github.com/matryoshka-model/service-api",
     "license": "BSD-2-Clause",
     "require": {
-        "php": ">=5.4.0",
-        "zendframework/zend-http": "~2.3",
-        "zendframework/zend-json": "~2.3",
-        "zendframework/zend-stdlib": "~2.3",
-        "zendframework/zendxml": "~1.0-dev",
+        "php": ">=5.5.0",
+        "zendframework/zend-http": "~2.4",
+        "zendframework/zend-json": "~2.4",
+        "zendframework/zend-stdlib": "~2.4",
+        "zendframework/zendxml": "~1.0",
         "zfcampus/zf-api-problem": "~1.0"
     },
     "require-dev": {
