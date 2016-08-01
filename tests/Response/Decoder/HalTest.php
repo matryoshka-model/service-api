@@ -52,7 +52,7 @@ class HalTest extends \PHPUnit_Framework_TestCase
 
         //Test empty string
         $response3 = new Response();
-        $response3->setContent('');
+        $response3->setContent('[]');
         $response3->getHeaders()->addHeaderLine('Content-Type', 'application/json');
         $result3 = [];
 

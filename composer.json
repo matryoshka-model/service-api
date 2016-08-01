@@ -6,8 +6,8 @@
     "require": {
         "php": ">=5.5.0",
         "zendframework/zend-http": "~2.4",
-        "zendframework/zend-json": "~2.4",
-        "zendframework/zend-stdlib": "~2.4",
+        "zendframework/zend-json": "~3.0",
+        "zendframework/zend-stdlib": "~3.0",
         "zendframework/zendxml": "~1.0",
         "zfcampus/zf-api-problem": "~1.0"
     },

@@ -11,6 +11,7 @@ namespace MatryoshkaServiceApiTest\Client;
 use Zend\Http\Request;
 use Zend\Http\Response;
 use Matryoshka\Service\Api\Client\HttpApi;
+use Zend\Json\Json;
 
 /**
  * Class HttpApiTest
@@ -28,14 +29,54 @@ class HttpApiTest extends \PHPUnit_Framework_TestCase
     public function providerServiceResponse()
     {
         return [
-            [['get', 'path', ['test' => 'test']], '{"test": "test"}', 'application/json', 'json'],
-            [['get', null, ['test' => 'test']], '{"test": "test"}', 'application/json', 'json'],
-            [['head', 'path', ['test' => 'test']], '{"test": "test"}', 'application/json', 'json'],
-            [['options', 'path', ['test' => 'test']], '{"test": "test"}', 'application/json', 'json'],
-            [['patch', 'path', ['test' => 'test']], '{"test": "test"}', 'application/json', 'json'],
-            [['post', 'path', ['test' => 'test'], ['test' => 'test']], '{"test": "test"}', 'application/json', 'json'],
-            [['put', 'path', ['test' => 'test'], ['test' => 'test']], '{"test": "test"}', 'application/json', 'json'],
-            [['delete', 'path', ['test' => 'test']], '{"test": "test"}', 'application/json', 'json'],
+            [
+                ['get', 'path', ['test' => 'test']],
+                '{"test": "test"}',
+                'application/json',
+                'json'
+            ],
+            [
+                ['get', null, ['test' => 'test']],
+                '{"test": "test"}',
+                'application/json',
+                'json'
+            ],
+            [
+                ['head', 'path', ['test' => 'test']],
+                '{"test": "test"}',
+                'application/json',
+                'json'
+            ],
+            [
+                ['options', 'path', ['test' => 'test']],
+                '{"test": "test"}',
+                'application/json',
+                'json'
+            ],
+            [
+                ['patch', 'path', ['test' => 'test']],
+                '{"test": "test"}',
+                'application/json',
+                'json'
+            ],
+            [
+                ['post', 'path', ['test' => 'test'], ['test' => 'test']],
+                '{"test": "test"}',
+                'application/json',
+                'json'
+            ],
+            [
+                ['put', 'path', ['test' => 'test'], ['test' => 'test']],
+                '{"test": "test"}',
+                'application/json',
+                'json'
+            ],
+            [
+                ['delete', 'path', ['test' => 'test']],
+                '{"test": "test"}',
+                'application/json',
+                'json'
+            ],
         ];
     }
 
@@ -75,7 +116,7 @@ class HttpApiTest extends \PHPUnit_Framework_TestCase
             //Bad responses
             [['get', null], '{"test": "test"}', 'application/json', 500, 'json'],
             [['post', 'path', ['test' => 'test']], '{"test": "test"}', 'application/json', 500, 'json'],
-            [['delete', 'id'], '', 'application/json', 500, 'json'],
+            [['delete', 'id'], '{}', 'application/json', 500, 'json'],
             [
                 ['get', null],
                 $apiProblemResponse,
@@ -86,7 +127,7 @@ class HttpApiTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 ['get', 'id'],
-                '',
+                '{}',
                 'application/problem+json',
                 502,
                 'json',
@@ -94,7 +135,7 @@ class HttpApiTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 ['get', 'id'],
-                '',
+                '{}',
                 'application/invalid-response-format',
                 502,
                 'json',
@@ -105,7 +146,7 @@ class HttpApiTest extends \PHPUnit_Framework_TestCase
             //Bad requests
             [
                 ['post', 'path', ['test' => 'test']],
-                '',
+                '{}',
                 'application/json',
                 502,
                 'invalid-request-format',
@@ -117,6 +158,52 @@ class HttpApiTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->httpApi = new HttpApi();
+    }
+
+    /**
+     * @param array $params
+     * @param $responseContent
+     * @param $responseContentType
+     * @param $responseStatusCode
+     * @param $format
+     * @param string $exceptionType
+     * @dataProvider providerServiceRequestResponseException
+     */
+    public function testHttpMethodRequestResponseException(
+        array $params,
+        $responseContent,
+        $responseContentType,
+        $responseStatusCode,
+        $format,
+        $exceptionType = '\Matryoshka\Service\Api\Exception\InvalidResponseException'
+    ) {
+        $httpClient = $this->getMockBuilder('Zend\Http\Client')
+            ->disableOriginalConstructor()
+            ->setMethods(['dispatch', 'getResponse'])
+            ->getMock();
+
+        $response = new Response();
+
+        $response->setContent($responseContent);
+        if ($responseContentType) {
+            $response->getHeaders()->addHeaderLine('Content-Type: ' . $responseContentType);
+        }
+        $response->setStatusCode($responseStatusCode);
+
+
+        $httpClient->expects($this->any())
+            ->method('dispatch')
+            ->will($this->returnValue($response));
+
+        $httpClient->expects($this->any())
+            ->method('getResponse')
+            ->will($this->returnValue($response));
+
+        $api = new HttpApi($httpClient);
+        $api->setRequestFormat($format);
+
+        $this->setExpectedException($exceptionType);
+        $api->dispatchRequest(call_user_func_array([$api, 'prepareRequest'], $params));
     }
 
     public function testGetSetValidStatusCodes()
@@ -209,52 +296,6 @@ class HttpApiTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expectedResponse, $api->getLastResponse());
         $this->assertSame($api->getResponseDecoder()->getLastPayload(), $api->getLastResponseData());
     }
-
-    /**
-     * @param array $params
-     * @param $responseContent
-     * @param $responseContentType
-     * @param $responseStatusCode
-     * @param $format
-     * @param string $exceptionType
-     * @dataProvider providerServiceRequestResponseException
-     */
-    public function testHttpMethodRequestResponseException(
-        array $params,
-        $responseContent,
-        $responseContentType,
-        $responseStatusCode,
-        $format,
-        $exceptionType = '\Matryoshka\Service\Api\Exception\InvalidResponseException'
-    ) {
-        $httpClient = $this->getMockBuilder('Zend\Http\Client')
-            ->disableOriginalConstructor()
-            ->setMethods(['dispatch', 'getResponse'])
-            ->getMock();
-
-        $response = new Response();
-        $response->setContent($responseContent);
-        if ($responseContentType) {
-            $response->getHeaders()->addHeaderLine('Content-Type: ' . $responseContentType);
-        }
-        $response->setStatusCode($responseStatusCode);
-
-
-        $httpClient->expects($this->any())
-            ->method('dispatch')
-            ->will($this->returnValue($response));
-
-        $httpClient->expects($this->any())
-            ->method('getResponse')
-            ->will($this->returnValue($response));
-
-        $api = new HttpApi($httpClient);
-        $api->setRequestFormat($format);
-
-        $this->setExpectedException($exceptionType);
-        $api->dispatchRequest(call_user_func_array([$api, 'prepareRequest'], $params));
-    }
-
 
     public function testPrepareRequestShouldThrowExceptionOnInvalidFormat()
     {
