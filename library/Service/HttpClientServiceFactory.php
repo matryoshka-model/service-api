@@ -8,8 +8,9 @@
  */
 namespace Matryoshka\Service\Api\Service;
 
-use Zend\ServiceManager\FactoryInterface;
+use Interop\Container\ContainerInterface;
 use Zend\Http\Client;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -24,14 +25,16 @@ class HttpClientServiceFactory implements FactoryInterface
     protected $configKey = 'matryoshka-httpclient';
 
     /**
-     * Create a http client service
+     *  Create a http client service
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
      * @return Client
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $serviceLocator->get('Config');
+        $config = $container->get('Config');
 
         $client = new Client();
         if (!empty($config[$this->configKey])) {

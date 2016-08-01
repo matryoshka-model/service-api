@@ -5,6 +5,7 @@
     "license": "BSD-2-Clause",
     "require": {
         "php": ">=5.5.0",
+        "zendframework/zend-servicemanager": "~3.0",
         "zendframework/zend-http": "~2.4",
         "zendframework/zend-json": "~3.0",
         "zendframework/zend-stdlib": "~3.0",
@@ -13,8 +14,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~4.2",
-        "satooshi/php-coveralls": "dev-master",
-        "zendframework/zend-servicemanager": "~2.3"
+        "satooshi/php-coveralls": "dev-master"
     },
     "extra": {
         "branch-alias": {

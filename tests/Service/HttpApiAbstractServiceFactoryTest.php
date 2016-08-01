@@ -62,11 +62,11 @@ class HttpApiAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         ];
 
         $sm = $this->serviceManager = new ServiceManager(
-            new Config([
+            [
                 'abstract_factories' => [
                     'Matryoshka\Service\Api\Service\HttpApiAbstractServiceFactory',
                 ]
-            ])
+            ]
         );
 
         $sm->setService('Config', $config);
@@ -101,15 +101,13 @@ class HttpApiAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testNullConfig($service)
     {
-        $sl = new ServiceManager(
-            new Config(
-                [
-                    'abstract_factories' => [
-                        'Matryoshka\Service\Api\Service\HttpApiAbstractServiceFactory',
-                    ]
+        $sl = new ServiceManager([
+                'abstract_factories' => [
+                    'Matryoshka\Service\Api\Service\HttpApiAbstractServiceFactory',
                 ]
-            )
+            ]
         );
+        $sl->setService('Config', []);
         $sl->get($service);
     }
 
@@ -121,13 +119,11 @@ class HttpApiAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
     public function testEmptyConfig($service)
     {
         $sl = new ServiceManager(
-            new Config(
-                [
-                    'abstract_factories' => [
-                        'Matryoshka\Service\Api\Service\HttpApiAbstractServiceFactory',
-                    ]
+            [
+                'abstract_factories' => [
+                    'Matryoshka\Service\Api\Service\HttpApiAbstractServiceFactory',
                 ]
-            )
+            ]
         );
         $sl->setService('Config', []);
         $sl->get($service);

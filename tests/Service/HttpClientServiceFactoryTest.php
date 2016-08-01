@@ -43,14 +43,11 @@ class HttpClientServiceFactoryTest extends \PHPUnit_Framework_TestCase
                 ],
         ];
 
-        $sm = $this->serviceManager = new ServiceManager(
-            new Config(
-                [
-                    'factories' => [
-                        'HttpClient' => 'Matryoshka\Service\Api\Service\HttpClientServiceFactory',
-                    ]
+        $sm = $this->serviceManager = new ServiceManager([
+                        'factories' => [
+                    'HttpClient' => 'Matryoshka\Service\Api\Service\HttpClientServiceFactory',
                 ]
-            )
+            ]
         );
 
         $sm->setService('Config', $config);

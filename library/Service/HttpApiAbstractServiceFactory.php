@@ -8,10 +8,8 @@
  */
 namespace Matryoshka\Service\Api\Service;
 
-use Zend\Http\Client;
-use Zend\Http\Headers;
-use Zend\Http\Request;
-use Zend\ServiceManager\AbstractFactoryInterface;
+use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Matryoshka\Service\Api\Client\HttpApi;
 
@@ -33,14 +31,13 @@ class HttpApiAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Determine if we can create a service with name
      *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @param $name
-     * @param $requestedName
+     * @param ContainerInterface $container
+     * @param string $requestedName
      * @return bool
      */
-    public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
+    public function canCreate(ContainerInterface $container, $requestedName)
     {
-        $config = $this->getConfig($serviceLocator);
+        $config = $this->getConfig($container);
         if (empty($config)) {
             return false;
         }
@@ -57,20 +54,20 @@ class HttpApiAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Create service with name
      *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @param $name
-     * @param $requestedName
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
      * @return HttpApi
      */
-    public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $this->getConfig($serviceLocator)[$requestedName];
+        $config = $this->getConfig($container)[$requestedName];
 
-        $httpClient = isset($config['http_client']) && $serviceLocator->has($config['http_client']) ?
-        $serviceLocator->get($config['http_client']) : null;
+        $httpClient = isset($config['http_client']) && $container->has($config['http_client']) ?
+        $container->get($config['http_client']) : null;
 
-        $baseRequest = isset($config['base_request']) && $serviceLocator->has($config['base_request']) ?
-        $serviceLocator->get($config['base_request']) : null;
+        $baseRequest = isset($config['base_request']) && $container->has($config['base_request']) ?
+        $container->get($config['base_request']) : null;
 
         $api = new HttpApi($httpClient, $baseRequest);
 
@@ -83,8 +80,8 @@ class HttpApiAbstractServiceFactory implements AbstractFactoryInterface
             $api->setRequestFormat($config['request_format']);
         }
         // Profiler
-        if (isset($config['profiler']) && $serviceLocator->has($config['profiler'])) {
-            $api->setProfiler($serviceLocator->get($config['profiler']));
+        if (isset($config['profiler']) && $container->has($config['profiler'])) {
+            $api->setProfiler($container->get($config['profiler']));
         }
 
         return $api;
@@ -93,21 +90,16 @@ class HttpApiAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Get api service configuration, if any
      *
-     * @param  ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $container
      * @return array
      */
-    protected function getConfig(ServiceLocatorInterface $serviceLocator)
+    protected function getConfig(ContainerInterface $container)
     {
         if ($this->config !== null) {
             return $this->config;
         }
 
-        if (!$serviceLocator->has('Config')) {
-            $this->config = [];
-            return $this->config;
-        }
-
-        $config = $serviceLocator->get('Config');
+        $config = $container->get('Config');
         if (!isset($config[$this->configKey]) || !is_array($config[$this->configKey])) {
             $this->config = [];
             return $this->config;
